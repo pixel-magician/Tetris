@@ -7,7 +7,7 @@ namespace PM.FSM
     /// <summary>
     /// 状态机管理
     /// </summary>
-    public class StateMachineManager : MonoBehaviour
+    public class StateMachineManagerBase : MonoBehaviour
     {
         public List<StateMachineBase> StateMachines { set; get; } = new List<StateMachineBase>();
 
