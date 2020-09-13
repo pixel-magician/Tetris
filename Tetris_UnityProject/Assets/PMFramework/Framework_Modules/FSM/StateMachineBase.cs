@@ -19,7 +19,7 @@ namespace PM.FSM
             }
             set
             {
-                _currentState.StateExit();
+                _currentState?.StateExit();
                 _currentState = value;
                 _currentState.StateEnter();
             }
@@ -35,6 +35,7 @@ namespace PM.FSM
         public virtual void MachineInit(Dictionary<int, Istate> states)
         {
             _states = states;
+            ChangeState(0);
         }
 
         public virtual void MachineUpdate()

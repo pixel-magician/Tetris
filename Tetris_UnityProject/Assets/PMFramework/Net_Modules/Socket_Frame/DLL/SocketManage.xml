@@ -1,0 +1,624 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SocketManage</name>
+    </assembly>
+    <members>
+        <member name="T:PM.SocketManage.PortManage">
+            <summary>
+            端口管理
+            </summary>
+        </member>
+        <member name="M:PM.SocketManage.PortManage.GetUsedPort">
+            <summary>
+            获取已用端口集合
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PM.SocketManage.PortManage.GetUsedPortTcp">
+            <summary>
+            获取Tcp已用端口集合
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PM.SocketManage.PortManage.GetUsedPortUdp">
+            <summary>
+            获取Udp已用端口集合
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PM.SocketManage.PortManage.GetUsedPortConnect">
+            <summary>
+            获取已连接的端口集合
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PM.SocketManage.PortManage.GetAvailablePort(System.Int32,System.Int32)">
+            <summary>
+            获取一个可用端口
+            </summary>
+            <param name="startPort">查找开始的端口</param>
+            <param name="endPort">查找结束的端口</param>
+            <returns>返回可用端口，没有可用端口返回0</returns>
+        </member>
+        <member name="T:PM.SocketManage.TcpClient">
+            <summary>
+            socket通讯，客户端管理(tcp)
+            </summary>
+        </member>
+        <member name="E:PM.SocketManage.TcpServer.EventReceivePacket">
+            <summary>
+            数据包接收事件
+            </summary>
+        </member>
+        <member name="E:PM.SocketManage.TcpServer.EventCloseSocket">
+            <summary>
+            链接关闭的通知事件
+            (与服务器的链接)
+            (这个事件主要为了处理内部进行通讯出现意外退出的情况)
+            </summary>
+        </member>
+        <member name="F:PM.SocketManage.TcpServer._isSendOver">
+            <summary>
+            是否结束发送
+            </summary>
+        </member>
+        <member name="F:PM.SocketManage.TcpServer._isReceiveOver">
+            <summary>
+            是否结束接收
+            </summary>
+        </member>
+        <member name="F:PM.SocketManage.TcpServer._isCatchOver">
+            <summary>
+            是否结束数据包处理
+            </summary>
+        </member>
+        <member name="F:PM.SocketManage.TcpServer._isSendMsg">
+            <summary>
+            是否发送消息，标记异步发送是否进行中
+            </summary>
+        </member>
+        <member name="P:PM.SocketManage.TcpServer.SendPacketCatch">
+            <summary>
+            发送包队列
+            </summary>
+        </member>
+        <member name="P:PM.SocketManage.TcpServer.ReceivePacketCatch">
+            <summary>
+            接收包队列
+            </summary>
+        </member>
+        <member name="M:PM.SocketManage.TcpServer.Init(System.String,System.Int32)">
+            <summary>
+            初始化套接字和ip端口，并且用通讯线程
+            链接服务器，并开启数据发送、数据接收、接收处理线程
+            </summary>
+            <param name="serverIP"></param>
+            <param name="serverPort"></param>
+        </member>
+        <member name="M:PM.SocketManage.TcpServer.Stop">
+            <summary>
+            停止客户端通讯
+            </summary>
+        </member>
+        <member name="M:PM.SocketManage.TcpServer.StartSynchro">
+            <summary>
+            同步的通讯方式
+            </summary>
+        </member>
+        <member name="M:PM.SocketManage.TcpServer.StartAsync">
+            <summary>
+            异步的通讯方式
+            调用异步接收，之后会循环接收数据
+            异步发送，则在数据包发送队列有数据是循环发送
+            </summary>
+        </member>
+        <member name="M:PM.SocketManage.TcpServer.ThreadSendByOne(System.Object)">
+            <summary>
+            数据发送线程，一次循环发送一条数据包
+            </summary>
+            <param name="o"></param>
+        </member>
+        <member name="M:PM.SocketManage.TcpServer.ThreadReceiveByOne(System.Object)">
+            <summary>
+            接收线程，一次循环接收一个数据包
+            </summary>
+            <param name="o"></param>
+        </member>
+        <member name="M:PM.SocketManage.TcpServer.AsyncSend(System.Net.Sockets.Socket)">
+            <summary>
+            异步发送数据
+            </summary>
+            <param name="client"></param>
+        </member>
+        <member name="M:PM.SocketManage.TcpServer.OnAsyncSend(System.IAsyncResult)">
+            <summary>
+            回调
+            异步发送数据
+            </summary>
+            <param name="ar"></param>
+        </member>
+        <member name="M:PM.SocketManage.TcpServer.AsyncReceive(PM.SocketManage.ReceiveState)">
+            <summary>
+            异步接收数据
+            </summary>
+            <param name="socekt"></param>
+        </member>
+        <member name="M:PM.SocketManage.TcpServer.OnAsyncReceive(System.IAsyncResult)">
+            <summary>
+            回调
+            异步接收数据
+            </summary>
+            <param name="ar"></param>
+        </member>
+        <member name="M:PM.SocketManage.TcpServer.AddPacket(PM.SocketManage.SocketPacket)">
+            <summary>
+            将数据包添加至发送缓存
+            </summary>
+            <param name="packet"></param>
+        </member>
+        <member name="M:PM.SocketManage.TcpServer.HandlePacket(System.Object)">
+            <summary>
+            对接收缓冲区的数据包进行处理
+            </summary>
+        </member>
+        <member name="T:PM.SocketManage.LinkClient">
+            <summary>
+            已连接的客户端
+            </summary>
+        </member>
+        <member name="E:PM.SocketManage.LinkServer.EventReceivePacket">
+            <summary>
+            接收到并解析数据包以后的通知事件
+            </summary>
+        </member>
+        <member name="E:PM.SocketManage.LinkServer.EventCloseSocket">
+            <summary>
+            链接关闭的通知事件
+            </summary>
+        </member>
+        <member name="P:PM.SocketManage.LinkServer.SendCatch">
+            <summary>
+            发送队列
+            </summary>
+        </member>
+        <member name="P:PM.SocketManage.LinkServer.Client">
+            <summary>
+            链接的套接字 
+            </summary>
+        </member>
+        <member name="F:PM.SocketManage.LinkServer._isSendMsg">
+            <summary>
+            是否发送消息，标记异步发送是否进行中
+            </summary>
+        </member>
+        <member name="M:PM.SocketManage.LinkServer.AddCatch(System.Byte[])">
+            <summary>
+            将缓存数据添加至发送队列
+            </summary>
+            <param name="buff"></param>
+        </member>
+        <member name="M:PM.SocketManage.LinkServer.Start">
+            <summary>
+            开始通讯
+            </summary>
+        </member>
+        <member name="M:PM.SocketManage.LinkServer.Close">
+            <summary>
+            关闭链接
+            </summary>
+        </member>
+        <member name="M:PM.SocketManage.LinkServer.AsyncSend(System.Net.Sockets.Socket)">
+            <summary>
+            异步发送数据
+            </summary>
+            <param name="client"></param>
+        </member>
+        <member name="M:PM.SocketManage.LinkServer.OnAsyncSend(System.IAsyncResult)">
+            <summary>
+            回调
+            异步发送数据
+            </summary>
+            <param name="ar"></param>
+        </member>
+        <member name="M:PM.SocketManage.LinkServer.AsyncReceive(PM.SocketManage.ReceiveState)">
+            <summary>
+            异步接收数据
+            </summary>
+            <param name="socekt"></param>
+        </member>
+        <member name="M:PM.SocketManage.LinkServer.OnAsyncReceive(System.IAsyncResult)">
+            <summary>
+            回调
+            异步接收数据
+            </summary>
+            <param name="ar"></param>
+        </member>
+        <member name="T:PM.SocketManage.ReceiveState">
+            <summary>
+            异步接收的状态对象。用于在异步方法中传递数据，以及接收处理
+            </summary>
+        </member>
+        <member name="P:PM.SocketManage.ReceiveState.Size">
+            <summary>
+            缓冲区大小
+            </summary>
+        </member>
+        <member name="P:PM.SocketManage.ReceiveState.Len">
+            <summary>
+            接收的数据包的长度
+            </summary>
+        </member>
+        <member name="P:PM.SocketManage.ReceiveState.ReceiveByte">
+            <summary>
+            接收缓冲区
+            可以存放包头和消息的字节数组
+            </summary>
+        </member>
+        <member name="P:PM.SocketManage.ReceiveState.SurplusByte">
+            <summary>
+            剩余的缓冲数据
+            </summary>
+        </member>
+        <member name="P:PM.SocketManage.ReceiveState.ReceiveSocket">
+            <summary>
+            接收数据的Socket对象
+            </summary>
+        </member>
+        <member name="M:PM.SocketManage.ReceiveState.#ctor(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="size">初始化接收缓存的大小</param>
+        </member>
+        <member name="M:PM.SocketManage.ReceiveState.GetAllByte">
+            <summary>
+            获取一个完整数据包的字节数组
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:PM.SocketManage.TcpServer">
+            <summary>
+            socket通讯，服务器端管理(tcp)
+            </summary>
+        </member>
+        <member name="E:PM.SocketManage.TcpServer.EventReceivePacket">
+            <summary>
+            数据包接收事件
+            </summary>
+        </member>
+        <member name="E:PM.SocketManage.TcpServer.EventCloseSocket">
+            <summary>
+            链接关闭的通知事件
+            (客户端的链接)
+            (这个事件主要为了处理内部进行通讯出现意外退出的情况)
+            </summary>
+        </member>
+        <member name="P:PM.SocketManage.TcpServer.SendPacketCatch">
+            <summary>
+            发送包队列
+            </summary>
+        </member>
+        <member name="P:PM.SocketManage.TcpServer.ReceivePacketCatch">
+            <summary>
+            接收包队列
+            </summary>
+        </member>
+        <member name="P:PM.SocketManage.TcpServer.Listener">
+            <summary>
+            服务器监听套接字
+            </summary>
+        </member>
+        <member name="M:PM.SocketManage.TcpServer.Init(System.String,System.Int32)">
+            <summary>
+            初始化套接字和ip端口
+            </summary>
+            <param name="serverIP"></param>
+            <param name="serverPort"></param>
+        </member>
+        <member name="M:PM.SocketManage.TcpServer.RemoveClient(System.String)">
+            <summary>
+            从链接池中移除一个链接对象
+            当客户端发送退出请求是调用此方式
+            (实现主动退出)
+            </summary>
+            <param name="str"></param>
+        </member>
+        <member name="M:PM.SocketManage.TcpServer.AsyncAccept(System.Net.Sockets.Socket)">
+            <summary>
+            异步监听
+            </summary>
+            <param name="listener"></param>
+        </member>
+        <member name="M:PM.SocketManage.TcpServer.OnAsyncAccept(System.IAsyncResult)">
+            <summary>
+            异步监听回调
+            </summary>
+            <param name="ar"></param>
+        </member>
+        <member name="M:PM.SocketManage.TcpServer.AddPacket(PM.SocketManage.SocketPacket,System.Collections.Generic.List{System.String})">
+            <summary>
+            将数据包添加至发送缓存,并且添加需要发送的链接列表
+            </summary>
+            <param name="packet"></param>
+            <param name="list">为空时表示全部列表</param>
+        </member>
+        <member name="M:PM.SocketManage.TcpServer.RecPacket(PM.SocketManage.SocketPacket)">
+            <summary>
+            接收数据包
+            </summary>
+            <param name="packet"></param>
+        </member>
+        <member name="M:PM.SocketManage.TcpServer.HandlePacket(System.Object)">
+            <summary>
+            对接收缓冲区的数据包进行处理
+            </summary>
+        </member>
+        <member name="M:PM.SocketManage.TcpServer.SendPacket(System.Object)">
+            <summary>
+            将数据包推送至客户端对象，由其处理
+            </summary>
+        </member>
+        <member name="T:PM.SocketManage.SocketPacket">
+            <summary>
+            Socket数据包
+            </summary>
+        </member>
+        <member name="P:PM.SocketManage.SocketPacket.MsgId">
+            <summary>
+            消息体类型ID
+            </summary>
+        </member>
+        <member name="P:PM.SocketManage.SocketPacket.IP_Point">
+            <summary>
+            IP端口，用于服务器端保存链接地址
+            </summary>
+        </member>
+        <member name="P:PM.SocketManage.SocketPacket.HeadJson">
+            <summary>
+            消息头的json字符串
+            </summary>
+        </member>
+        <member name="P:PM.SocketManage.SocketPacket.BodyJson">
+            <summary>
+            消息体的json字符串
+            </summary>
+        </member>
+        <member name="M:PM.SocketManage.SocketPacket.GetByte">
+            <summary>
+            将包转换为字节数组
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PM.SocketManage.SocketPacket.CreatePacket(System.Byte[])">
+            <summary>
+            通过字节数组创建包
+            </summary>
+            <param name="buff"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PM.SocketManage.SocketPacket.GetHead``1">
+            <summary>
+            获取消息头对象
+            </summary>
+            <typeparam name="T">对象类型</typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:PM.SocketManage.SocketPacket.SetHead(System.Object)">
+            <summary>
+            将消息头对象转换为json格式
+            </summary>
+            <param name="o"></param>
+        </member>
+        <member name="M:PM.SocketManage.SocketPacket.GetBody``1">
+            <summary>
+            获取消息体对象
+            </summary>
+            <typeparam name="T">对象类型</typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:PM.SocketManage.SocketPacket.SetBody(System.Object)">
+            <summary>
+            将消息头对象转换为json格式
+            </summary>
+            <param name="o"></param>
+        </member>
+        <member name="T:PM.SocketManage.HeartbeatPacket">
+            <summary>
+            心跳包数据
+            暂未使用
+            </summary>
+        </member>
+        <member name="T:PM.SocketManage.UdpClient">
+            <summary>
+            Socket通讯，客户端（UDP）
+            </summary>
+        </member>
+        <member name="E:PM.SocketManage.UdpServer.EventReceivePacket">
+            <summary>
+            数据包接收事件
+            </summary>
+        </member>
+        <member name="F:PM.SocketManage.UdpServer._isSendOver">
+            <summary>
+            是否结束发送
+            </summary>
+        </member>
+        <member name="F:PM.SocketManage.UdpServer._isReceiveOver">
+            <summary>
+            是否结束接收
+            </summary>
+        </member>
+        <member name="F:PM.SocketManage.UdpServer._isCatchOver">
+            <summary>
+            是否结束数据包处理
+            </summary>
+        </member>
+        <member name="F:PM.SocketManage.UdpServer._isSendMsg">
+            <summary>
+            是否发送消息，标记异步发送是否进行中
+            </summary>
+        </member>
+        <member name="P:PM.SocketManage.UdpServer.SendPacketCatch">
+            <summary>
+            发送包队列
+            </summary>
+        </member>
+        <member name="P:PM.SocketManage.UdpServer.ReceivePacketCatch">
+            <summary>
+            接收包队列
+            </summary>
+        </member>
+        <member name="M:PM.SocketManage.UdpServer.Init(System.String,System.Int32)">
+            <summary>
+            初始化套接字和ip端口，并启用通讯线程
+            链接服务器，并开启数据发送、数据接收、接收处理线程
+            </summary>
+            <param name="serverIP"></param>
+            <param name="serverPort"></param>
+        </member>
+        <member name="M:PM.SocketManage.UdpServer.Stop">
+            <summary>
+            停止客户端通讯
+            </summary>
+        </member>
+        <member name="M:PM.SocketManage.UdpServer.StartSynchro">
+            <summary>
+            同步的通讯方式
+            </summary>
+        </member>
+        <member name="M:PM.SocketManage.UdpServer.StartAsync">
+            <summary>
+            异步的通讯方式
+            调用异步接收，之后会循环接收数据
+            异步发送，则在数据包发送队列有数据是循环发送
+            </summary>
+        </member>
+        <member name="M:PM.SocketManage.UdpServer.ThreadSendByOne(System.Object)">
+            <summary>
+            数据发送线程，一次循环发送一条数据包
+            </summary>
+            <param name="o"></param>
+        </member>
+        <member name="M:PM.SocketManage.UdpServer.ThreadReceiveByOne(System.Object)">
+            <summary>
+            接收线程，一次循环接收一个数据包
+            </summary>
+            <param name="o"></param>
+        </member>
+        <member name="M:PM.SocketManage.UdpServer.AsyncSend(System.Net.Sockets.Socket)">
+            <summary>
+            异步发送数据
+            </summary>
+            <param name="client"></param>
+        </member>
+        <member name="M:PM.SocketManage.UdpServer.OnAsyncSend(System.IAsyncResult)">
+            <summary>
+            回调
+            异步发送数据
+            </summary>
+            <param name="ar"></param>
+        </member>
+        <member name="M:PM.SocketManage.UdpServer.AsyncReceive(PM.SocketManage.ReceiveState)">
+            <summary>
+            异步接收数据
+            </summary>
+            <param name="socekt"></param>
+        </member>
+        <member name="M:PM.SocketManage.UdpServer.OnAsyncReceive(System.IAsyncResult)">
+            <summary>
+            回调
+            异步接收数据
+            </summary>
+            <param name="ar"></param>
+        </member>
+        <member name="M:PM.SocketManage.UdpServer.AddPacket(PM.SocketManage.SocketPacket)">
+            <summary>
+            将数据包添加至发送缓存
+            数据包长度不能超过65000
+            </summary>
+            <param name="packet"></param>
+        </member>
+        <member name="M:PM.SocketManage.UdpServer.HandlePacket(System.Object)">
+            <summary>
+            对接收缓冲区的数据包进行处理
+            </summary>
+        </member>
+        <member name="T:PM.SocketManage.UdpServer">
+            <summary>
+            Socket通讯，服务器端（UDP）
+            </summary>
+        </member>
+        <member name="E:PM.SocketManage.UdpServer.EventReceivePacket">
+            <summary>
+            数据包接收事件
+            </summary>
+        </member>
+        <member name="E:PM.SocketManage.UdpServer.EventCloseSocket">
+            <summary>
+            链接关闭的通知事件
+            (客户端的链接)
+            (这个事件主要为了处理内部进行通讯出现意外退出的情况)
+            </summary>
+        </member>
+        <member name="P:PM.SocketManage.UdpServer.SendPacketCatch">
+            <summary>
+            发送包队列
+            </summary>
+        </member>
+        <member name="P:PM.SocketManage.UdpServer.ReceivePacketCatch">
+            <summary>
+            接收包队列
+            </summary>
+        </member>
+        <member name="P:PM.SocketManage.UdpServer.Listener">
+            <summary>
+            服务器监听套接字
+            </summary>
+        </member>
+        <member name="M:PM.SocketManage.UdpServer.Init(System.String,System.Int32)">
+            <summary>
+            初始化套接字和ip端口
+            </summary>
+            <param name="serverIP"></param>
+            <param name="serverPort"></param>
+        </member>
+        <member name="M:PM.SocketManage.UdpServer.AsyncReceive(PM.SocketManage.ReceiveState)">
+            <summary>
+            异步接收数据
+            </summary>
+            <param name="socekt"></param>
+        </member>
+        <member name="M:PM.SocketManage.UdpServer.OnAsyncReceive(System.IAsyncResult)">
+            <summary>
+            回调
+            异步接收数据
+            </summary>
+            <param name="ar"></param>
+        </member>
+        <member name="M:PM.SocketManage.UdpServer.AddPacket(PM.SocketManage.SocketPacket,System.Collections.Generic.List{System.String})">
+            <summary>
+            将数据包添加至发送缓存,并且添加需要发送的链接列表
+            数据包最大长度65000
+            </summary>
+            <param name="packet"></param>
+            <param name="list">为空时表示全部列表</param>
+        </member>
+        <member name="M:PM.SocketManage.UdpServer.RecPacket(PM.SocketManage.SocketPacket)">
+            <summary>
+            接收数据包
+            </summary>
+            <param name="packet"></param>
+        </member>
+        <member name="M:PM.SocketManage.UdpServer.HandlePacket(System.Object)">
+            <summary>
+            对接收缓冲区的数据包进行处理
+            </summary>
+        </member>
+        <member name="M:PM.SocketManage.UdpServer.SendPacket(System.Object)">
+            <summary>
+            将数据包推送至客户端对象，由其处理
+            </summary>
+        </member>
+    </members>
+</doc>
