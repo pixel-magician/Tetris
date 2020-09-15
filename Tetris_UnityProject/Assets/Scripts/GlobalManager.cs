@@ -35,7 +35,7 @@ public class GlobalManager : MonoBehaviour
     void Init()
     {
         Dictionary<int, Istate> dic = new Dictionary<int, Istate>();
-        dic.Add((int)EnumGameState.Stop, new StateStop());
+        dic.Add((int)EnumGameState.Prepare, new StateGamePrepare());
         _gameMachine.MachineInit(dic);
     }
 

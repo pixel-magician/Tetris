@@ -1,6 +1,6 @@
 ﻿public enum EnumGameState
 {
-    Stop,
+    Prepare,
     Run,
     Pause,
     GameOver,
