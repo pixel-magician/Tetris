@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using PM.FSM;
 
-public class GameMachine :StateMachineBase
+public class GameMachine : StateMachineBase<EnumGameState>
 {
+
 }

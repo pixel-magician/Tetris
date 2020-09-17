@@ -55,6 +55,7 @@ public class ChessBoard : MonoBehaviour
     {
         rect.DOAnchorPos3DY(50, _dgTime);
         rect.DOSizeDelta(new Vector2(800, 1600), _dgTime);
+        _isPause = false;
     }
 
 
@@ -65,6 +66,17 @@ public class ChessBoard : MonoBehaviour
     {
         rect.DOAnchorPos3DY(350, _dgTime);
         rect.DOSizeDelta(new Vector2(600, 1200), _dgTime);
+        _isPause = true;
+    }
+
+
+    /// <summary>
+    /// 释放棋盘资源
+    /// 清空状态
+    /// </summary>
+    public void Release()
+    {
+
     }
 
 

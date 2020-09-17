@@ -113,7 +113,7 @@ namespace PM
             if (_prefabs.ContainsKey(windowId))
             {
                 //每次都重新实例化,支持多个相同窗口
-                GameObject g = CreateItem?.Invoke(_prefabs[windowId],_container);
+                GameObject g = CreateItem?.Invoke(_prefabs[windowId], _container);
                 window = g.GetComponent<IUIWindow>();
             }
             else
@@ -139,12 +139,14 @@ namespace PM
             var oldWindow = _navigationList.Count > 0 ? _navigationList.Last() : null;
             if (_navigationList.Count > 0)
             {
-                WindowAction(oldWindow, windowAction, () =>
+                WindowAction(oldWindow, windowAction, (w) =>
                 {
                     //考虑到上一窗口的隐藏可能不是立即执行（协程，动画等）,将显示下一个窗口的逻辑放到回调里执行
                     var window = OpenWindow(windowId, args);
                     if (window.IsAddNavigation) _navigationList.Add(window);
                     callback?.Invoke();
+                    w.OnWindowShow = null;
+                    w.OnWindowHide = null;
                 });
             }
             else
@@ -196,13 +198,13 @@ namespace PM
         /// </summary>
         /// <param name="window"></param>
         /// <param name="windowAction"></param>
-        IUIWindow WindowAction(IUIWindow window, WindowActionState windowAction, Action action)
+        IUIWindow WindowAction(IUIWindow window, WindowActionState windowAction, Action<IUIWindow> action)
         {
             IUIWindow w = window;
             switch (windowAction)
             {
                 case WindowActionState.None:
-                    action?.Invoke();
+                    action?.Invoke(w);
                     break;
                 case WindowActionState.Show://这一步判断貌似多余，以后再整理
                     w.OnWindowShow += action;
@@ -214,7 +216,7 @@ namespace PM
                     break;
                 case WindowActionState.Destory:
                     DestoryItem?.Invoke((w as UIWindowBase).gameObject);
-                    action?.Invoke();
+                    action?.Invoke(w);
                     break;
                 default:
                     break;

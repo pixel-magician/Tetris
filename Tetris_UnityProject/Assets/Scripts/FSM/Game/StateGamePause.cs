@@ -13,5 +13,7 @@ public class StateGamePause : StateBase
     public override void StateEnter()
     {
         base.StateEnter();
+        _globalManager._chessBoard.Close();
+        _globalManager._uiManger.BackWindow();
     }
 }

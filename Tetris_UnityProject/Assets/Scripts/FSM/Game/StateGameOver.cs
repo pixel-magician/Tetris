@@ -13,5 +13,7 @@ public class StateGameOver : StateBase
     public override void StateEnter()
     {
         base.StateEnter();
+        _globalManager._chessBoard.Close();
+        _globalManager._uiManger.NextWindow(WindowId.Menu);
     }
 }

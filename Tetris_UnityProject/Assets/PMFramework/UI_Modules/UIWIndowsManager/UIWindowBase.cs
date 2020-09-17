@@ -22,8 +22,8 @@ namespace PM
         /// </summary>
         public virtual bool IsAddNavigation { get { return true; } }
 
-        public Action OnWindowShow { get; set; }
-        public Action OnWindowHide { get; set; }
+        public Action<IUIWindow> OnWindowShow { get; set; }
+        public Action<IUIWindow> OnWindowHide { get; set; }
 
 
 
@@ -34,7 +34,7 @@ namespace PM
         {
             Debug.Log("隐藏：" + WindowId);
             gameObject.SetActive(false);
-            OnWindowHide?.Invoke();
+            OnWindowHide?.Invoke(this);
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace PM
         {
             Debug.Log("显示窗口：" + WindowId);
             gameObject.SetActive(true);
-            OnWindowShow?.Invoke();
+            OnWindowShow?.Invoke(this);
         }
     }
 }

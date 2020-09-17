@@ -22,6 +22,7 @@ public class GlobalManager : MonoBehaviour
         _gameMachine = new GameMachine();
 
         _uiManger.CreateItem += CreateUI;
+        _uiManger.DestoryItem += DestoryUI;
     }
 
 
@@ -34,16 +35,30 @@ public class GlobalManager : MonoBehaviour
 
     void Init()
     {
-        Dictionary<int, Istate> dic = new Dictionary<int, Istate>();
-        dic.Add((int)EnumGameState.Prepare, new StateGamePrepare());
+        Dictionary<EnumGameState, Istate> dic = new Dictionary<EnumGameState, Istate>();
+        dic.Add(EnumGameState.Prepare, new StateGamePrepare());
+        dic.Add(EnumGameState.Run, new StateGameRun());
+        dic.Add(EnumGameState.Pause, new StateGamePause());
+        dic.Add(EnumGameState.GameOver, new StateGameOver());
         _gameMachine.MachineInit(dic);
     }
 
 
-
+    /// <summary>
+    /// 实例化UI对象
+    /// </summary>
+    /// <param name="template"></param>
+    /// <param name="container"></param>
+    /// <returns></returns>
     GameObject CreateUI(GameObject template, Transform container)
     {
         GameObject g = Instantiate(template, container);
         return g;
+    }
+
+
+    void DestoryUI(GameObject ui)
+    {
+        Destroy(ui);
     }
 }

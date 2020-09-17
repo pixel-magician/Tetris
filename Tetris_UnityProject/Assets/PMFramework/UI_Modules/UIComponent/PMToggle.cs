@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -8,7 +9,7 @@ using UnityEngine.UI;
 public class PMToggle : PMUIComponent, IPointerClickHandler
 {
 
-   
+
 
     [SerializeField]
     GameObject _openImage;
@@ -18,7 +19,7 @@ public class PMToggle : PMUIComponent, IPointerClickHandler
     [SerializeField]
     AudioClip _audioClip;
 
-    public UnityEvent<bool> OnValueChanged;
+    public UnityEventOnValueChanged OnValueChanged;
 
 
     public bool IsOn
@@ -52,4 +53,9 @@ public class PMToggle : PMUIComponent, IPointerClickHandler
         PlayAudio(_audioClip);
         IsOn = !IsOn;
     }
+
+
+
+    [Serializable]
+    public class UnityEventOnValueChanged : UnityEvent<bool> { }
 }

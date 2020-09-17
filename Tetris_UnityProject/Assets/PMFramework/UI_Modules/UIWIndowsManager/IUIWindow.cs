@@ -13,11 +13,11 @@ namespace PM
         /// <summary>
         /// 窗口已显示
         /// </summary>
-        Action OnWindowShow { set; get; }
+        Action<IUIWindow> OnWindowShow { set; get; }
         /// <summary>
         /// 窗口已隐藏
         /// </summary>
-        Action OnWindowHide { set; get; }
+        Action<IUIWindow> OnWindowHide { set; get; }
 
         /// <summary>
         /// 该窗口的管理者

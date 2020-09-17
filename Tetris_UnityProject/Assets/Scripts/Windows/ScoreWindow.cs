@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using PM;
 using DG.Tweening;
+using TMPro;
 using System;
 
-public class MenuWindow : UIWindowBase
+public class ScoreWindow : UIWindowBase
 {
-    public override WindowId WindowId => WindowId.Menu;
+    public override WindowId WindowId => WindowId.Score;
 
     [SerializeField]
-    RectTransform _title;
+    TextMeshProUGUI _score;
     [SerializeField]
-    RectTransform _downMenu;
+    TextMeshProUGUI _bestScore;
     [SerializeField]
     PMButton _btnBack;
 
@@ -22,8 +23,7 @@ public class MenuWindow : UIWindowBase
     public override void ShowWindow(object args)
     {
         gameObject.SetActive(true);
-        _btnBack.gameObject.SetActive(GlobalManager.Instance._gameMachine.CurrentState is StateGamePause);
-        AnimationMove(false, ()=>
+        AnimationMove(false, () =>
         {
             OnWindowShow?.Invoke(this);
         });
@@ -31,7 +31,6 @@ public class MenuWindow : UIWindowBase
 
     public override void HideWindows()
     {
-
         AnimationMove(true, () =>
         {
             gameObject.SetActive(false);
@@ -48,49 +47,36 @@ public class MenuWindow : UIWindowBase
     /// <param name="callback">动画结束后的回调</param>
     void AnimationMove(bool isMoveOut, Action callback)
     {
-        float titlePos;
-        float downMenuPos;
+        float scorePos;
+        float btnPos;
         if (isMoveOut)
         {
-            titlePos = 180;
-            downMenuPos = -210;
+            scorePos = 300;
+            btnPos = 200;
         }
         else
         {
-            titlePos = -150;
-            downMenuPos = 100;
+            scorePos = 0;
+            btnPos = -50;
         }
-        _title.DOAnchorPos3DY(titlePos, _dgTime);
-        _downMenu.DOAnchorPos3DY(downMenuPos, _dgTime).OnComplete(() =>
+        _score.transform.parent.GetComponent<RectTransform>().DOAnchorPosX(scorePos, _dgTime);
+        _bestScore.transform.parent.GetComponent<RectTransform>().DOAnchorPosX(-scorePos, _dgTime);
+        _btnBack.GetComponent<RectTransform>().DOAnchorPosX(btnPos, _dgTime).OnComplete(() =>
         {
             callback?.Invoke();
         });
     }
 
 
-    #region UI事件
 
-    public void OnBtnStart()
-    {
-        Debug.Log("点击开始/重新开始按钮");
-        GlobalManager.Instance._gameMachine.ChangeState(EnumGameState.Run);
-    }
+    #region UI事件
 
     public void OnBtnBack()
     {
         Debug.Log("点击返回按钮");
-        GlobalManager.Instance._gameMachine.ChangeState(EnumGameState.Run);
+        GlobalManager.Instance._gameMachine.ChangeState(EnumGameState.Pause);
     }
 
-    public void OnToggleSound(bool b)
-    {
-        Debug.Log("点击声音开关按钮");
-    }
-
-    public void OnBtnRecord()
-    {
-        Debug.Log("点击计分按钮");
-    }
 
     #endregion
 }

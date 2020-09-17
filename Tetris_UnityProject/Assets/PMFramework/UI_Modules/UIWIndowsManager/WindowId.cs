@@ -11,5 +11,6 @@ namespace PM
         None,
         Menu,
         Score,
+        ScoreRecord,
     }
 }
